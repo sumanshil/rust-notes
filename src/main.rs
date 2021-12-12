@@ -1,3 +1,4 @@
+use std::io;
 use rusqlite::{Connection, Result};
 
 fn main() -> Result<(), Box<dyn std::error::Error>>{
@@ -9,5 +10,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
     )",
         [],
     )?;
+
+    let mut buffer =  String::new();
+    io::stdin().read_line(&mut buffer)?;
+    conn.execute("INSERT INTO notes (body) values (?1)", [buffer])?;
     Ok(())
 }
